@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Card from "../../shared/FormElements/Card";
+import Card from "../../shared/components/FormElements/Card";
 import classes from "./AdminLogin.module.css";
 
 const Login = (props) => {
@@ -33,7 +33,6 @@ const Login = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(enteredEmail, enteredPassword);
   };
 
   return (
