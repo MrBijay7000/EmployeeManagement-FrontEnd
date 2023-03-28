@@ -17,13 +17,17 @@ import ViewTask from "./users/pages/ViewTask";
 import { AuthContext } from "./shared/context/auth-context";
 
 function App() {
+  const [token, setToken] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userId, setUserId] = useState(false);
 
-  const login = useCallback(() => {
-    setIsLoggedIn(true);
+  const login = useCallback((uid, token) => {
+    setToken(token);
+    setUserId(uid);
   }, []);
 
   const logout = useCallback(() => {
+    setToken(null);
     setIsLoggedIn(false);
   }, []);
 
@@ -54,7 +58,13 @@ function App() {
   return (
     <div className="App">
       <AuthContext.Provider
-        value={{ isLoggedIn: isLoggedIn, login: login, logout: logout }}
+        value={{
+          isLoggedIn: !!token,
+          token: token,
+          userId: userId,
+          login: login,
+          logout: logout,
+        }}
       >
         <Router>
           <MainNavigation />
