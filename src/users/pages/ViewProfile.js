@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Link } from "react-router-dom";
-import { Form, Input, message } from "antd";
+import { Form, Input } from "antd";
 
 const ViewProfile = (props) => {
   return (

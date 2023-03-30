@@ -1,11 +1,5 @@
 import React, { useState, useCallback } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-  Switch,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import Auth from "./users/pages/Auth";
@@ -84,7 +78,7 @@ function App() {
               <Route path="/" element={<Employee />} />
               <Route path="/view-profile" element={<ViewProfile />} />
               <Route path="/:id/employee-details" element={<ViewProfile />} />
-              <Route path="/view-task" element={<ViewTask />} />
+              <Route path="/viewTask" element={<ViewTask />} />
               <Route path="/leave" element={<LeaveRequestUL />} />
               <Route
                 path="/change-password"

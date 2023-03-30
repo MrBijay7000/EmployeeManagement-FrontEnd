@@ -1,32 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../../shared/components/FormElements/Button";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import UsersList from "../components/UsersList";
+import { useHttpClient } from "../../shared/hooks/http-hook";
 
 import "./Employee.css";
 const Employee = (props) => {
-  const USERS = [
-    {
-      id: "12",
-      name: "BIJAY SHRESTHA",
-      email: "test@test.com",
-      image:
-        "https://img.freepik.com/premium-vector/freelance-sticker-logo-icon-vector-man-with-desktop-blogger-with-laptop-icon-vector-isolated-background-eps-10_399089-1098.jpg",
-    },
-    {
-      id: "123",
-      name: "BIJAY SHRESTHA",
-      email: "test@test.com",
-      image:
-        "https://img.freepik.com/premium-vector/freelance-sticker-logo-icon-vector-man-with-desktop-blogger-with-laptop-icon-vector-isolated-background-eps-10_399089-1098.jpg",
-    },
-  ];
+  const { error, sendRequest, clearError } = useHttpClient();
+  const [loadedUsers, setLoadedUSers] = useState();
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const responseData = await sendRequest(
+          "http://localhost:5001/api/users"
+        );
+
+        setLoadedUSers(responseData.users);
+      } catch (err) {}
+    };
+    fetchUsers();
+  }, [sendRequest]);
 
   return (
     <div>
-      <UsersList items={USERS} />
+      <ErrorModal error={error} onClear={clearError} />
+      {loadedUsers && <UsersList items={loadedUsers} />}
       <div className="button">
         <Button Link to="/leave">
           APPLY FOR LEAVE
+        </Button>
+      </div>
+      <div className="button">
+        <Button Link to="/viewTask">
+          VIEW TASK
         </Button>
       </div>
     </div>
