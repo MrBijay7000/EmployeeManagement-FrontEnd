@@ -3,6 +3,7 @@ import React, { useState, useContext } from "react";
 import Card from "../../shared/components/FormElements/Card";
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
@@ -18,7 +19,7 @@ const Auth = (props) => {
   const auth = useContext(AuthContext);
 
   const [isLoginMode, setIsLoginMode] = useState();
-  const { error, sendRequest, clearError } = useHttpClient();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -92,7 +93,6 @@ const Auth = (props) => {
             "Content-Type": "application/json",
           }
         );
-
         auth.login(responseData.userId, responseData.token);
       } catch (err) {
         console.log(err);
@@ -104,6 +104,7 @@ const Auth = (props) => {
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
       <Card className="authentication">
+        {isLoading && <LoadingSpinner asOverlay />}
         <h2>Login Required</h2>
         <hr />
         <form onSubmit={authSubmitHandler}>

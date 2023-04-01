@@ -77,7 +77,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Employee />} />
               <Route path="/view-profile" element={<ViewProfile />} />
-              <Route path="/:id/employee-details" element={<ViewProfile />} />
+              {/* <Route path="/viewProfile/:id" element={<ViewProfile />} /> */}
               <Route path="/viewTask" element={<ViewTask />} />
               <Route path="/leave" element={<LeaveRequestUL />} />
               <Route
