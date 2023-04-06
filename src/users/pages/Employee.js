@@ -39,4 +39,5 @@ const Employee = (props) => {
     </div>
   );
 };
+
 export default Employee;
