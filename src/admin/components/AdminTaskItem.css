@@ -1,10 +1,10 @@
-.admin-item {
+.task-item {
   margin: 1rem;
   width: calc(45% - 2rem);
   min-width: 17.5rem;
 }
 
-.admin-item a {
+.task-item a {
   display: flex;
   align-items: center;
   width: 100%;
@@ -15,35 +15,35 @@
   background: #292929;
 }
 
-.admin-item a:hover,
-.admin-item a:active {
+.task-item a:hover,
+.task-item a:active {
   background: #ffd900;
 }
 
-.admin-item__content {
+.task-item__content {
   padding: 0;
 }
 
-.admin-item__image {
+.task-item__image {
   width: 4rem;
   height: 4rem;
   margin-right: 1rem;
 }
 
-.admin-item__info h2 {
+.task-item__info h2 {
   font-size: 1.5rem;
   margin: 0 0 0.5rem 0;
   font-weight: normal;
   color: #ffd900;
 }
 
-.admin-item:hover h2,
-.admin-item:active h2,
-.admin-item:hover h3,
-.admin-item:active h3 {
+.task-item:hover h2,
+.task-item:active h2,
+.task-item:hover h3,
+.task-item:active h3 {
   color: #292929;
 }
 
-.admin-item__info h3 {
+.task-item__info h3 {
   margin: 0;
 }

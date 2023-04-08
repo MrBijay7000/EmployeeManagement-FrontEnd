@@ -6,13 +6,13 @@ import "./AdminItem.css";
 
 const AdminItem = (props) => {
   return (
-    <li className="user-item">
-      <Card className="user-item__content">
+    <li className="admin-item">
+      <Card className="admin-item__content">
         <Link to={`/${props.id}/admin-details`}>
-          <div className="user-item__image">
+          <div className="admin-item__image">
             <Avatar image={props.image} alt={props.name} />
           </div>
-          <div className="user-item__info">
+          <div className="admin-item__info">
             <h2>{props.name}</h2>
             <h3>{props.email}</h3>
           </div>

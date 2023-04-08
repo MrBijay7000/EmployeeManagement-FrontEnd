@@ -9,10 +9,12 @@ import LeaveRequestUL from "./users/pages/Leave";
 import ViewProfile from "./users/pages/ViewProfile";
 import ViewTask from "./users/pages/ViewTask";
 import { AuthContext } from "./shared/context/auth-context";
-import AdminNav from "./shared/components/Navigation/AdminNav";
-import EmployeeNav from "./shared/components/Navigation/EmployeeNav";
 import Admin from "./admin/pages/Admin";
-import Layout from "./shared/components/UIElements/Layout";
+import AssignTask from "./admin/pages/AssignTask";
+import Auths from "./admin/pages/Auth.";
+import AddNewEmployee from "./admin/pages/AddNewEmployee";
+import TaskGiven from "./admin/pages/TaskGiven";
+import AdminDetails from "./admin/pages/AdminDetails";
 
 function App() {
   const [token, setToken] = useState(false);
@@ -71,13 +73,18 @@ function App() {
               {/* <Layout /> */}
               <Routes>
                 {/* <Route path="/" element={<Admin />} /> */}
+                <Route path="/assignTask" element={<AssignTask />} />
+                <Route path="/auths" element={<Auths />} />
+                <Route path="/addNewEmployee" element={<AddNewEmployee />} />
+                <Route path="/taskGiventoEmployee" element={<TaskGiven />} />
+                <Route path="/:id/admin-details" element={<AdminDetails />} />
                 {/*   
             <Route path="/view-profile" element={<AdminViewProfile />} />
             <Route
               path="/employee-details"
               element={<AdminEmployeeDetails />}
             />
-            <Route path="/:id/admin-details" element={<AdminDetails />} />
+        
             <Route path="/change-password" element={<ChangePassword />} />
             <Route path="/leave" element={<LeaveRequestUL />} />
           </Routes> */}

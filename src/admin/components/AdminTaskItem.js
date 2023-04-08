@@ -1,9 +1,11 @@
 import React from "react";
 import Avatar from "../../shared/components/UIElements/Avatar";
-import Card from "../../shared/components/FormElements/Card";
-import "./TaskItem.css";
+import Button from "../../shared/components/FormElements/Button";
 
-const TaskItem = (props) => {
+import Card from "../../shared/components/FormElements/Card";
+import "./AdminTaskItem.css";
+
+const AdminTaskItem = (props) => {
   return (
     <li className="task-item ">
       <Card className="task-item__content">
@@ -18,10 +20,12 @@ const TaskItem = (props) => {
           <h2>Status: {props.status}</h2>
           <h3>EndDate: {props.endDate}</h3>
         </div>
+        <Button>DELETE</Button>
+
         {/* </Link> */}
       </Card>
     </li>
   );
 };
 
-export default TaskItem;
+export default AdminTaskItem;

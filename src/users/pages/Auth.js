@@ -115,6 +115,7 @@ const Auth = (props) => {
               type="text"
               label="Your Name"
               validators={[VALIDATOR_REQUIRE()]}
+              placeholder="name@example.com"
               errorText="Please enter a name."
               onInput={inputHandler}
             />
