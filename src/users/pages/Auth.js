@@ -1,21 +1,20 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useState } from "react";
 
+import { useNavigate } from "react-router-dom";
+import Button from "../../shared/components/FormElements/Button";
 import Card from "../../shared/components/FormElements/Card";
 import Input from "../../shared/components/FormElements/Input";
-import Button from "../../shared/components/FormElements/Button";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import { AuthContext } from "../../shared/context/auth-context";
+import { useForm } from "../../shared/hooks/form-hook";
+import { useHttpClient } from "../../shared/hooks/http-hook";
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from "../../shared/util/validators";
-import { useForm } from "../../shared/hooks/form-hook";
-import { AuthContext } from "../../shared/context/auth-context";
-import { useHttpClient } from "../../shared/hooks/http-hook";
-import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import "./Auth.css";
-import { useJwt } from "react-jwt";
-import { useNavigate } from "react-router-dom";
 
 const Auth = (props) => {
   const auth = useContext(AuthContext);
@@ -24,32 +23,6 @@ const Auth = (props) => {
   const [isLoginMode, setIsLoginMode] = useState();
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [userRole, setUserRole] = useState("employee");
-  const [user, setUser] = useState({});
-  // const { decodedToken, isExpired } = useJwt(loggedInUser.token);
-
-  useEffect(() => {
-    const loggedInUser = JSON.parse(localStorage.getItem("user"));
-    // const { decodedToken, isExpired } = useJwt(loggedInUser.token);
-    // console.log({ decodedToken, isExpired });
-    if (loggedInUser) {
-      // setFormData(
-      //   {
-      //     ...formState.inputs,
-      //     name: {
-      //       value: "",
-      //       isValid: false,
-      //     },
-      //     email: {
-      //       value: loggedInUser.email,
-      //       isValid: false,
-      //     },
-      //   },
-      //   false
-      // );
-      // loginUser();
-      setUser(loggedInUser);
-    }
-  }, []);
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -106,11 +79,10 @@ const Auth = (props) => {
         "Content-Type": "application/json",
       }
     );
-    console.log({ responseData });
     localStorage.setItem("user", JSON.stringify(responseData));
     auth.login(responseData.userId, responseData.token);
     if (responseData.role == "admin") {
-      navigate("/");
+      navigate("/admin");
     } else {
       navigate("/employee");
     }
@@ -171,7 +143,6 @@ const Auth = (props) => {
                   className="form-control"
                   required
                   onChange={(e) => {
-                    console.log({ value: e.target.value });
                     setUserRole(e.target.value);
                   }}
                 >

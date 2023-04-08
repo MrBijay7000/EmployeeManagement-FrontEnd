@@ -1,14 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import NavLinks from "./NavLinks";
-import MainHeader from "./MainHeader";
-import SideDrawer from "./SideDrawer";
-import "./MainNavigation.css";
 import Backdrop from "../UIElements/Backdrop";
+import MainHeader from "./MainHeader";
+import "./MainNavigation.css";
+import NavLinks from "./NavLinks";
+import SideDrawer from "./SideDrawer";
+import LoadingSpinner from "../UIElements/LoadingSpinner";
 
-function MainNavigation(props) {
+function MainNavigation({ loggedInUser }) {
+  const { role } = loggedInUser;
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    console.log({ mainNavigation: loggedInUser });
+    setIsLoading(true);
+  }, [loggedInUser]);
 
   const openDrawerHandler = () => {
     setDrawerIsOpen(true);
@@ -38,10 +46,25 @@ function MainNavigation(props) {
           <span />
         </button>
         <h1 className="main-navigation__title">
-          <Link to="/">Employee Dashboard</Link>
+          <Link
+            to={
+              Object.keys(loggedInUser).length !== 0
+                ? role === "admin"
+                  ? "/admin"
+                  : "/employee"
+                : "/"
+            }
+          >
+            {Object.keys(loggedInUser).length !== 0
+              ? role === "admin"
+                ? "Admin "
+                : "Employee "
+              : ""}
+            Dashboard
+          </Link>
         </h1>
         <nav className="main-navigation__header-nav">
-          <NavLinks />
+          <NavLinks loggedInUser={loggedInUser} />
         </nav>
       </MainHeader>
     </React.Fragment>

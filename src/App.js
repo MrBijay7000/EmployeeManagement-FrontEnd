@@ -15,11 +15,28 @@ import Auths from "./admin/pages/Auth.";
 import AddNewEmployee from "./admin/pages/AddNewEmployee";
 import TaskGiven from "./admin/pages/TaskGiven";
 import AdminDetails from "./admin/pages/AdminDetails";
+import { useNavigate } from "react-router-dom";
+import Dashboard from "./shared/components/Dashboard/Dashboard";
+import LoadingSpinner from "./shared/components/UIElements/LoadingSpinner";
 
 function App() {
+  // const navigate = useNavigate();
   const [token, setToken] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState({});
   const [userId, setUserId] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      setLoggedInUser(user);
+      setIsLoading(false);
+    } else {
+      setLoggedInUser({});
+      setIsLoading(false);
+    }
+  }, [token]);
 
   const login = useCallback((uid, token) => {
     setToken(token);
@@ -29,6 +46,7 @@ function App() {
   const logout = useCallback(() => {
     setToken(null);
     setIsLoggedIn(false);
+    localStorage.removeItem("user");
   }, []);
 
   // let routes;
@@ -57,53 +75,78 @@ function App() {
 
   return (
     <Fragment>
-      <div className="App">
-        <AuthContext.Provider
-          value={{
-            isLoggedIn: !!token,
-            token: token,
-            userId: userId,
-            login: login,
-            logout: logout,
-          }}
-        >
-          <Router>
-            <MainNavigation />
-            <main>
-              {/* <Layout /> */}
-              <Routes>
-                <Route path="/" element={<Admin />} />
-                <Route path="/assignTask" element={<AssignTask />} />
-                <Route path="/auths" element={<Auths />} />
-                <Route path="/addNewEmployee" element={<AddNewEmployee />} />
-                <Route path="/taskGiventoEmployee" element={<TaskGiven />} />
-                <Route path="/:id/admin-details" element={<AdminDetails />} />
-                {/*   
-            <Route path="/view-profile" element={<AdminViewProfile />} />
-            <Route
-              path="/employee-details"
-              element={<AdminEmployeeDetails />}
-            />
-        
-            <Route path="/change-password" element={<ChangePassword />} />
-            <Route path="/leave" element={<LeaveRequestUL />} />
-          </Routes> */}
-                {/* <Routes> */}
-                <Route path="/employee" element={<Employee />} />
-                <Route path="/view-profile" element={<ViewProfile />} />
-                <Route path="/viewProfile/:id" element={<ViewProfile />} />
-                <Route path="/viewTask" element={<ViewTask />} />
-                <Route path="/leave" element={<LeaveRequestUL />} />
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        // <p></p>
+        <div className="App">
+          <AuthContext.Provider
+            value={{
+              isLoggedIn: !!token,
+              token: token,
+              userId: userId,
+              login: login,
+              logout: logout,
+            }}
+          >
+            <Router>
+              <MainNavigation loggedInUser={loggedInUser} />
+              <main>
+                {/* <Layout /> */}
+                <Routes>
+                  {!loggedInUser ? (
+                    <Route path="/" element={<Dashboard />} />
+                  ) : (
+                    <>
+                      <Route path="/" element={<Dashboard />} />
+
+                      <Route path="/admin" element={<Admin />} />
+                      <Route path="/assignTask" element={<AssignTask />} />
+                      <Route path="/auths" element={<Auths />} />
+                      <Route
+                        path="/addNewEmployee"
+                        element={<AddNewEmployee />}
+                      />
+                      <Route
+                        path="/taskGiventoEmployee"
+                        element={<TaskGiven />}
+                      />
+                      <Route
+                        path="/:id/admin-details"
+                        element={<AdminDetails />}
+                      />
+                      {/*   
+                <Route path="/view-profile" element={<AdminViewProfile />} />
                 <Route
-                  path="/change-password"
-                  element={<EmployeechangePassword />}
+                path="/employee-details"
+                element={<AdminEmployeeDetails />}
                 />
-                <Route path="/auth" element={<Auth />} />
-              </Routes>
-            </main>
-          </Router>
-        </AuthContext.Provider>
-      </div>
+                
+                <Route path="/change-password" element={<ChangePassword />} />
+                <Route path="/leave" element={<LeaveRequestUL />} />
+              </Routes> */}
+                      {/* <Routes> */}
+                      <Route path="/employee" element={<Employee />} />
+                      <Route path="/view-profile" element={<ViewProfile />} />
+                      <Route
+                        path="/viewProfile/:id"
+                        element={<ViewProfile />}
+                      />
+                      <Route path="/viewTask" element={<ViewTask />} />
+                      <Route path="/leave" element={<LeaveRequestUL />} />
+                      <Route
+                        path="/change-password"
+                        element={<EmployeechangePassword />}
+                      />
+                      <Route path="/auth" element={<Auth />} />
+                    </>
+                  )}
+                </Routes>
+              </main>
+            </Router>
+          </AuthContext.Provider>
+        </div>
+      )}
     </Fragment>
   );
 }
