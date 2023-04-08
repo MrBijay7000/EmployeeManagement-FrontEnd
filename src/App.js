@@ -72,7 +72,7 @@ function App() {
             <main>
               {/* <Layout /> */}
               <Routes>
-                {/* <Route path="/" element={<Admin />} /> */}
+                <Route path="/" element={<Admin />} />
                 <Route path="/assignTask" element={<AssignTask />} />
                 <Route path="/auths" element={<Auths />} />
                 <Route path="/addNewEmployee" element={<AddNewEmployee />} />
@@ -89,7 +89,7 @@ function App() {
             <Route path="/leave" element={<LeaveRequestUL />} />
           </Routes> */}
                 {/* <Routes> */}
-                <Route path="/" element={<Employee />} />
+                <Route path="/employee" element={<Employee />} />
                 <Route path="/view-profile" element={<ViewProfile />} />
                 <Route path="/viewProfile/:id" element={<ViewProfile />} />
                 <Route path="/viewTask" element={<ViewTask />} />

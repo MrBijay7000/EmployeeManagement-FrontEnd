@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 import Card from "../../shared/components/FormElements/Card";
 import Input from "../../shared/components/FormElements/Input";
@@ -14,12 +14,42 @@ import { AuthContext } from "../../shared/context/auth-context";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import "./Auth.css";
+import { useJwt } from "react-jwt";
+import { useNavigate } from "react-router-dom";
 
 const Auth = (props) => {
   const auth = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [isLoginMode, setIsLoginMode] = useState();
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const [userRole, setUserRole] = useState("employee");
+  const [user, setUser] = useState({});
+  // const { decodedToken, isExpired } = useJwt(loggedInUser.token);
+
+  useEffect(() => {
+    const loggedInUser = JSON.parse(localStorage.getItem("user"));
+    // const { decodedToken, isExpired } = useJwt(loggedInUser.token);
+    // console.log({ decodedToken, isExpired });
+    if (loggedInUser) {
+      // setFormData(
+      //   {
+      //     ...formState.inputs,
+      //     name: {
+      //       value: "",
+      //       isValid: false,
+      //     },
+      //     email: {
+      //       value: loggedInUser.email,
+      //       isValid: false,
+      //     },
+      //   },
+      //   false
+      // );
+      // loginUser();
+      setUser(loggedInUser);
+    }
+  }, []);
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -31,6 +61,10 @@ const Auth = (props) => {
         value: "",
         isValid: false,
       },
+      // role: {
+      //   value: "employee",
+      //   isValid: false,
+      // },
     },
     false
   );
@@ -59,24 +93,35 @@ const Auth = (props) => {
     setIsLoginMode((prevMode) => !prevMode);
   };
 
+  const loginUser = async () => {
+    const responseData = await sendRequest(
+      "http://localhost:5001/api/users/login",
+      "POST",
+      JSON.stringify({
+        email: formState.inputs.email.value,
+        password: formState.inputs.password.value,
+      }),
+
+      {
+        "Content-Type": "application/json",
+      }
+    );
+    console.log({ responseData });
+    localStorage.setItem("user", JSON.stringify(responseData));
+    auth.login(responseData.userId, responseData.token);
+    if (responseData.role == "admin") {
+      navigate("/");
+    } else {
+      navigate("/employee");
+    }
+  };
+
   const authSubmitHandler = async (event) => {
     event.preventDefault();
 
     if (isLoginMode) {
       try {
-        const responseData = await sendRequest(
-          "http://localhost:5001/api/users/login",
-          "POST",
-          JSON.stringify({
-            email: formState.inputs.email.value,
-            password: formState.inputs.password.value,
-          }),
-
-          {
-            "Content-Type": "application/json",
-          }
-        );
-        auth.login(responseData.userId, responseData.token);
+        loginUser();
       } catch (err) {}
     } else {
       try {
@@ -87,8 +132,8 @@ const Auth = (props) => {
             name: formState.inputs.name.value,
             email: formState.inputs.email.value,
             password: formState.inputs.password.value,
+            role: userRole,
           }),
-
           {
             "Content-Type": "application/json",
           }
@@ -109,16 +154,32 @@ const Auth = (props) => {
         <hr />
         <form onSubmit={authSubmitHandler}>
           {!isLoginMode && (
-            <Input
-              element="input"
-              id="name"
-              type="text"
-              label="Your Name"
-              validators={[VALIDATOR_REQUIRE()]}
-              placeholder="name@example.com"
-              errorText="Please enter a name."
-              onInput={inputHandler}
-            />
+            <>
+              <Input
+                element="input"
+                id="name"
+                type="text"
+                label="Your Name"
+                validators={[VALIDATOR_REQUIRE()]}
+                placeholder="name@example.com"
+                errorText="Please enter a name."
+                onInput={inputHandler}
+              />
+              <div className="form-control">
+                <label>Role </label>
+                <select
+                  className="form-control"
+                  required
+                  onChange={(e) => {
+                    console.log({ value: e.target.value });
+                    setUserRole(e.target.value);
+                  }}
+                >
+                  <option value="employee">Employee</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+            </>
           )}
           <Input
             element="input"
