@@ -14,7 +14,6 @@ function MainNavigation({ loggedInUser }) {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    console.log({ mainNavigation: loggedInUser });
     setIsLoading(true);
   }, [loggedInUser]);
 

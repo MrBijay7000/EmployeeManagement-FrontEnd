@@ -66,22 +66,18 @@ const Auth = (props) => {
     setIsLoginMode((prevMode) => !prevMode);
   };
 
-  const loginUser = async () => {
-    const responseData = await sendRequest(
-      "http://localhost:5001/api/users/login",
-      "POST",
-      JSON.stringify({
-        email: formState.inputs.email.value,
-        password: formState.inputs.password.value,
-      }),
-
-      {
-        "Content-Type": "application/json",
-      }
+  const userStorageHandler = (responseData) => {
+    const nowDate = new Date();
+    const expirationDate = new Date(
+      nowDate.getTime() + responseData.expiresIn * 1000
     );
-    localStorage.setItem("user", JSON.stringify(responseData));
+    const user = {
+      ...responseData,
+      expiresIn: expirationDate,
+    };
+    localStorage.setItem("user", JSON.stringify(user));
     auth.login(responseData.userId, responseData.token);
-    if (responseData.role == "admin") {
+    if (responseData.role === "admin") {
       navigate("/admin");
     } else {
       navigate("/employee");
@@ -93,7 +89,19 @@ const Auth = (props) => {
 
     if (isLoginMode) {
       try {
-        loginUser();
+        const responseData = await sendRequest(
+          "http://localhost:5001/api/users/login",
+          "POST",
+          JSON.stringify({
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value,
+          }),
+
+          {
+            "Content-Type": "application/json",
+          }
+        );
+        userStorageHandler(responseData);
       } catch (err) {}
     } else {
       try {
@@ -110,7 +118,7 @@ const Auth = (props) => {
             "Content-Type": "application/json",
           }
         );
-        auth.login(responseData.userId, responseData.token);
+        userStorageHandler(responseData);
       } catch (err) {
         console.log(err);
       }

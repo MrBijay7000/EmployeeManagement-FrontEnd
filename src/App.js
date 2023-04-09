@@ -1,6 +1,16 @@
-import React, { useState, useCallback, useEffect, Fragment } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  Fragment,
+  useContext,
+} from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import Auth from "./users/pages/Auth";
 import EmployeechangePassword from "./users/pages/ChangePassword";
@@ -15,12 +25,14 @@ import Auths from "./admin/pages/Auth.";
 import AddNewEmployee from "./admin/pages/AddNewEmployee";
 import TaskGiven from "./admin/pages/TaskGiven";
 import AdminDetails from "./admin/pages/AdminDetails";
-import { useNavigate } from "react-router-dom";
 import Dashboard from "./shared/components/Dashboard/Dashboard";
 import LoadingSpinner from "./shared/components/UIElements/LoadingSpinner";
+import { Navigate } from "react-router-dom";
 
 function App() {
   // const navigate = useNavigate();
+
+  const auth = useContext(AuthContext);
   const [token, setToken] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState({});
@@ -30,13 +42,37 @@ function App() {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
-      setLoggedInUser(user);
-      setIsLoading(false);
+      const { expiresIn } = user;
+      const now = new Date();
+      const isExpired = new Date(expiresIn).getTime() - now.getTime();
+      if (isExpired > 0) {
+        console.log("not expired");
+        setLoggedInUser(user);
+        setIsLoading(false);
+        setToken(user.token);
+        setUserId(user.userId);
+        auth.login(user.userId, user.token);
+      } else {
+        console.log(" expired");
+
+        setLoggedInUser({});
+        setIsLoading(false);
+        auth.logout();
+        localStorage.removeItem("user");
+        <Navigate to="/" replace={true} />;
+      }
     } else {
+      console.log("no any data in local storage");
+
       setLoggedInUser({});
       setIsLoading(false);
+      auth.logout();
+      // window.location.href = "/";
+      // navigate("/");
+      <Navigate to="/" replace={true} />;
+      <Dashboard />;
     }
-  }, [token]);
+  }, [auth, token]);
 
   const login = useCallback((uid, token) => {
     setToken(token);
@@ -94,28 +130,25 @@ function App() {
               <main>
                 {/* <Layout /> */}
                 <Routes>
-                  {!loggedInUser ? (
+                  <>
                     <Route path="/" element={<Dashboard />} />
-                  ) : (
-                    <>
-                      <Route path="/" element={<Dashboard />} />
 
-                      <Route path="/admin" element={<Admin />} />
-                      <Route path="/assignTask" element={<AssignTask />} />
-                      <Route path="/auths" element={<Auths />} />
-                      <Route
-                        path="/addNewEmployee"
-                        element={<AddNewEmployee />}
-                      />
-                      <Route
-                        path="/taskGiventoEmployee"
-                        element={<TaskGiven />}
-                      />
-                      <Route
-                        path="/:id/admin-details"
-                        element={<AdminDetails />}
-                      />
-                      {/*   
+                    <Route path="/admin" element={<Admin />} />
+                    <Route path="/assignTask" element={<AssignTask />} />
+                    <Route path="/auths" element={<Auths />} />
+                    <Route
+                      path="/addNewEmployee"
+                      element={<AddNewEmployee />}
+                    />
+                    <Route
+                      path="/taskGiventoEmployee"
+                      element={<TaskGiven />}
+                    />
+                    <Route
+                      path="/:id/admin-details"
+                      element={<AdminDetails />}
+                    />
+                    {/*   
                 <Route path="/view-profile" element={<AdminViewProfile />} />
                 <Route
                 path="/employee-details"
@@ -125,22 +158,18 @@ function App() {
                 <Route path="/change-password" element={<ChangePassword />} />
                 <Route path="/leave" element={<LeaveRequestUL />} />
               </Routes> */}
-                      {/* <Routes> */}
-                      <Route path="/employee" element={<Employee />} />
-                      <Route path="/view-profile" element={<ViewProfile />} />
-                      <Route
-                        path="/viewProfile/:id"
-                        element={<ViewProfile />}
-                      />
-                      <Route path="/viewTask" element={<ViewTask />} />
-                      <Route path="/leave" element={<LeaveRequestUL />} />
-                      <Route
-                        path="/change-password"
-                        element={<EmployeechangePassword />}
-                      />
-                      <Route path="/auth" element={<Auth />} />
-                    </>
-                  )}
+                    {/* <Routes> */}
+                    <Route path="/employee" element={<Employee />} />
+                    <Route path="/view-profile" element={<ViewProfile />} />
+                    <Route path="/viewProfile/:id" element={<ViewProfile />} />
+                    <Route path="/viewTask" element={<ViewTask />} />
+                    <Route path="/leave" element={<LeaveRequestUL />} />
+                    <Route
+                      path="/change-password"
+                      element={<EmployeechangePassword />}
+                    />
+                    <Route path="/auth" element={<Auth />} />
+                  </>
                 </Routes>
               </main>
             </Router>

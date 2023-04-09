@@ -1,9 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useContext } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/auth-context";
 import "./NavLinks.css";
-import { useNavigate } from "react-router-dom";
-import LoadingSpinner from "../UIElements/LoadingSpinner";
 
 const NavLinks = ({ loggedInUser }) => {
   const { role } = loggedInUser;

@@ -34,7 +34,6 @@ const AddNewEmployee = (props) => {
 
   const taskgivenHandler = async (event) => {
     event.preventDefault();
-    console.log(formState.inputs);
 
     try {
       const responseData = await sendRequest(
