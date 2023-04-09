@@ -42,35 +42,13 @@ function App() {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
-      const { expiresIn } = user;
-      const now = new Date();
-      const isExpired = new Date(expiresIn).getTime() - now.getTime();
-      if (isExpired > 0) {
-        console.log("not expired");
-        setLoggedInUser(user);
-        setIsLoading(false);
-        setToken(user.token);
-        setUserId(user.userId);
-        auth.login(user.userId, user.token);
-      } else {
-        console.log(" expired");
-
-        setLoggedInUser({});
-        setIsLoading(false);
-        auth.logout();
-        localStorage.removeItem("user");
-        <Navigate to="/" replace={true} />;
-      }
+      setLoggedInUser(user);
+      setIsLoading(false);
     } else {
-      console.log("no any data in local storage");
-
+      localStorage.removeItem("user");
       setLoggedInUser({});
       setIsLoading(false);
       auth.logout();
-      // window.location.href = "/";
-      // navigate("/");
-      <Navigate to="/" replace={true} />;
-      <Dashboard />;
     }
   }, [auth, token]);
 
@@ -126,7 +104,11 @@ function App() {
             }}
           >
             <Router>
-              <MainNavigation loggedInUser={loggedInUser} />
+              <MainNavigation
+                loggedInUser={loggedInUser}
+                // setToken={setToken}
+                // setUserId={setUserId}
+              />
               <main>
                 {/* <Layout /> */}
                 <Routes>

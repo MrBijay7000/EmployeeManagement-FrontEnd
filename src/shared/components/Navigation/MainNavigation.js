@@ -1,20 +1,42 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import Backdrop from "../UIElements/Backdrop";
 import MainHeader from "./MainHeader";
 import "./MainNavigation.css";
 import NavLinks from "./NavLinks";
 import SideDrawer from "./SideDrawer";
-import LoadingSpinner from "../UIElements/LoadingSpinner";
+import { AuthContext } from "../../context/auth-context";
 
 function MainNavigation({ loggedInUser }) {
   const { role } = loggedInUser;
+  const auth = useContext(AuthContext);
+  const navigate = useNavigate();
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true);
+    if (Object.keys(loggedInUser).length !== 0) {
+      const { expiresIn } = loggedInUser;
+      const now = new Date();
+      const isExpirationTime = new Date(expiresIn).getTime() - now.getTime();
+      if (isExpirationTime > 0) {
+        auth.token = loggedInUser.token;
+        auth.userId = loggedInUser.userId;
+        auth.login(loggedInUser.userId, loggedInUser.token);
+        if (role === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/employee");
+        }
+      } else {
+        auth.logout();
+        localStorage.removeItem("user");
+        navigate("/");
+      }
+    } else {
+      auth.logout();
+      navigate("/");
+    }
   }, [loggedInUser]);
 
   const openDrawerHandler = () => {
