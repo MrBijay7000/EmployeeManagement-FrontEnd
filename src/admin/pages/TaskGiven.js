@@ -45,11 +45,19 @@ const TaskGiven = (props) => {
     fetchUsers();
   }, [sendRequest]);
 
+  const taskDeletedHandler = (deletedTaskId) => {
+    setLoadedTasks((prevTask) =>
+      prevTask.filter((task) => task.id !== deletedTaskId)
+    );
+  };
+
   return (
     <div>
       <ErrorModal error={error} onClear={clearError} />
 
-      {loadedTasks && <AdminTaskList items={loadedTasks} />}
+      {loadedTasks && (
+        <AdminTaskList items={loadedTasks} onDeleteTask={taskDeletedHandler} />
+      )}
     </div>
     // <form className="leave">
     //   <Input

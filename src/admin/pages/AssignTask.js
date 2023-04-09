@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import Input from "../../shared/components/FormElements/Input";
 import {
   VALIDATOR_MINLENGTH,
@@ -8,10 +8,13 @@ import { useHttpClient } from "../../shared/hooks/http-hook";
 import Button from "../../shared/components/FormElements/Button";
 import { useForm } from "../../shared/hooks/form-hook";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import { useNavigate } from "react-router-dom";
+
 import "./AssignTask.css";
 
 const AssignTask = (props) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const navigate = useNavigate();
 
   const [formState, inputHandler] = useForm(
     {
@@ -31,10 +34,10 @@ const AssignTask = (props) => {
         value: "",
         isValid: false,
       },
-      status: {
-        value: "",
-        isValid: false,
-      },
+      // status: {
+      //   value: "",
+      //   isValid: false,
+      // },
     },
     false
   );
@@ -51,13 +54,15 @@ const AssignTask = (props) => {
           title: formState.inputs.title.value,
           description: formState.inputs.description.value,
           taskgivendate: formState.inputs.taskgivendate.value,
-          status: formState.inputs.status.value,
+          // status: formState.inputs.status.value,
         }),
 
         {
           "Content-Type": "application/json",
         }
       );
+      console.log(responseData);
+      navigate("/admin");
     } catch (err) {}
   };
 
@@ -83,13 +88,13 @@ const AssignTask = (props) => {
           label="Title"
           validators={[VALIDATOR_REQUIRE()]}
           onInput={inputHandler}
-          errorText="Please Enter A Valid Date"
+          errorText="Please Enter A Valid Title"
         />
         <Input
           id="description"
           element="textarea"
           type="text"
-          label="Description"
+          label="Description (Description of the task)"
           validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(5)]}
           onInput={inputHandler}
           errorText="Please Enter A Valid Description (At least 5 letters)"
@@ -105,15 +110,16 @@ const AssignTask = (props) => {
           onInput={inputHandler}
           errorText="Please Enter A Valid Date"
         />
-        <Input
+        {/* <Input
           id="status"
-          element="textarea"
+          element="input"
           type="text"
-          label="Description"
-          validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(5)]}
+          label="Status"
+          validators={[VALIDATOR_REQUIRE()]}
           onInput={inputHandler}
-          errorText="Please Enter A Valid Description (At least 5 letters)"
-        />
+          errorText="Please Enter A Status"
+          placeholder="Not Started, In Progress, Completed"
+        /> */}
 
         <Button type="submit" disabled={!formState.isValid}>
           ASSIGN

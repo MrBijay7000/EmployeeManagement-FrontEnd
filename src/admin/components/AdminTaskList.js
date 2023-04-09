@@ -12,7 +12,7 @@ const AdminTaskList = (props) => {
   }
 
   return (
-    <ul className="task-list">
+    <ul className="place-list">
       {props.items.map((user) => (
         <TaskItem
           key={user.id}
@@ -21,6 +21,7 @@ const AdminTaskList = (props) => {
           startDate={user.startDate}
           endDate={user.endDate}
           status={user.status}
+          onDelete={props.onDeleteTask}
         />
       ))}
     </ul>
