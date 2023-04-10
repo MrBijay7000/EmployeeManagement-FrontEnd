@@ -115,6 +115,16 @@ const ApplyForLeave = (props) => {
         onInput={inputHandler}
         errorText="Please Enter A Valid Description (At least 5 letters)"
       />
+      <label>
+        Pick your favorite flavor:
+        <select>
+          <option value="grapefruit">Grapefruit</option>
+          <option value="lime">Lime</option>
+          <option value="coconut">Coconut</option>
+          <option value="mango">Mango</option>
+        </select>
+      </label>
+
       <Button type="submit" disabled={!formState.isValid}>
         APPLY
       </Button>

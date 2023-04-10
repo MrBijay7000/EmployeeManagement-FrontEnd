@@ -16,6 +16,7 @@ const AdminTaskList = (props) => {
       {props.items.map((user) => (
         <TaskItem
           key={user.id}
+          id={user.id}
           title={user.title}
           description={user.description}
           startDate={user.startDate}

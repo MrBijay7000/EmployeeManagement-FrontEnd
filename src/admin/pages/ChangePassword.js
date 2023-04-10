@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Card from "../../shared/components/FormElements/Card";
-import classes from "./AdminLogin.module.css";
+import classes from "./ChangePassword.module.css";
 
 function ChangePassword(props) {
   const [enteredEmail, setEnteredEmail] = useState("");

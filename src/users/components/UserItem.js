@@ -6,13 +6,13 @@ import "./UserItem.css";
 
 const UserDetails = (props) => {
   return (
-    <li className="user-item">
-      <Card className="user-item__content">
+    <li className="place-item">
+      <Card className="place-item__content">
         <Link to={`/viewProfile/${props.id}`}>
-          <div className="user-item__image">
+          <div className="place-item__image">
             <Avatar image={props.image} alt={props.name} />
           </div>
-          <div className="user-item__info">
+          <div className="place-item__info">
             <h2>{props.name}</h2>
             <h3>{props.email}</h3>
           </div>

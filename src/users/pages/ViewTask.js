@@ -30,7 +30,7 @@ const ViewTask = (props) => {
     const fetchUsers = async () => {
       try {
         const responseData = await sendRequest(
-          "http://localhost:5001/api/users/viewTask"
+          "http://localhost:5001/api/admin/taskGiven"
         );
 
         setLoadedTasks(responseData.tasks);
