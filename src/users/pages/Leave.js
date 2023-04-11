@@ -7,10 +7,13 @@ import {
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import Button from "../../shared/components/FormElements/Button";
 import { useForm } from "../../shared/hooks/form-hook";
+import { useNavigate } from "react-router-dom";
 import "./Leave.css";
 
 const ApplyForLeave = (props) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
+
+  const navigate = useNavigate();
 
   const [formState, inputHandler] = useForm(
     {
@@ -59,6 +62,10 @@ const ApplyForLeave = (props) => {
         }
       );
     } catch (err) {}
+  };
+
+  const applyFormHaandler = () => {
+    navigate("/employee");
   };
 
   return (
@@ -115,17 +122,12 @@ const ApplyForLeave = (props) => {
         onInput={inputHandler}
         errorText="Please Enter A Valid Description (At least 5 letters)"
       />
-      <label>
-        Pick your favorite flavor:
-        <select>
-          <option value="grapefruit">Grapefruit</option>
-          <option value="lime">Lime</option>
-          <option value="coconut">Coconut</option>
-          <option value="mango">Mango</option>
-        </select>
-      </label>
 
-      <Button type="submit" disabled={!formState.isValid}>
+      <Button
+        type="submit"
+        disabled={!formState.isValid}
+        onClick={applyFormHaandler}
+      >
         APPLY
       </Button>
     </form>

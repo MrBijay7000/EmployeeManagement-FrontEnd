@@ -5,13 +5,13 @@ import "./TaskItem.css";
 
 const TaskItem = (props) => {
   return (
-    <li className="task-item ">
-      <Card className="task-item__content">
+    <li className="place-item ">
+      <Card className="place-item__content">
         {/* <Link to={`/viewProfile/${props.id}`}> */}
-        {/* <div className="task-item__image">
+        {/* <div className="place-item__image">
           <Avatar image={props.image} alt={props.name} />
         </div> */}
-        <div className="task-item__info">
+        <div className="place-item__info">
           <h2>Title: {props.title}</h2>
           <h2>Description: {props.description}</h2>
           <h2>StartDate: {props.startDate}</h2>

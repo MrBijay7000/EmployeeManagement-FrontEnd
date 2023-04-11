@@ -26,6 +26,7 @@ import ViewEmployeeDetails from "./admin/pages/ViewEmployeeDetails";
 
 import Dashboard from "./shared/components/Dashboard/Dashboard";
 import LoadingSpinner from "./shared/components/UIElements/LoadingSpinner";
+import ViewAllLeave from "./admin/pages/ViewAllLeave";
 
 function App() {
   // const navigate = useNavigate();
@@ -112,10 +113,8 @@ function App() {
                 <Routes>
                   <>
                     <Route path="/" element={<Dashboard />} />
-
                     <Route path="/admin" element={<Admin />} />
                     <Route path="/assignTask" element={<AssignTask />} />
-
                     <Route
                       path="/addNewEmployee"
                       element={<AddNewEmployee />}
@@ -131,7 +130,8 @@ function App() {
                     <Route
                       path="/viewAllEmployees"
                       element={<ViewAllEmployee />}
-                    />
+                    />{" "}
+                    <Route path="/viewAllLeave" element={<ViewAllLeave />} />
                     <Route
                       path="/:employeesId/viewEmployeeDetails"
                       element={<ViewEmployeeDetails />}

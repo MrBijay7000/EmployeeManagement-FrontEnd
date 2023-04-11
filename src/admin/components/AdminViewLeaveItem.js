@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { useHttpClient } from "../../shared/hooks/http-hook";
-import Modal from "../../shared/components/UIElements/Modal";
 import Avatar from "../../shared/components/UIElements/Avatar";
-import Card from "../../shared/components/FormElements/Card";
+import { useHttpClient } from "../../shared/hooks/http-hook";
 import Button from "../../shared/components/FormElements/Button";
-import "./AdminItem.css";
+import Card from "../../shared/components/FormElements/Card";
+import Modal from "../../shared/components/UIElements/Modal";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import "./AdminTaskItem.css";
 
-const AdminItem = (props) => {
+const AdminViewLeaveItem = (props) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
-
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const showDeleteWarningHandler = () => {
@@ -24,7 +24,7 @@ const AdminItem = (props) => {
     setShowConfirmModal(false);
     try {
       await sendRequest(
-        `http://localhost:5001/api/admin/employee/${props.id}`,
+        `http://localhost:5001/api/admin/${props.id}`,
         "DELETE"
       );
       props.onDelete(props.id);
@@ -32,7 +32,8 @@ const AdminItem = (props) => {
   };
 
   return (
-    <div>
+    <React.Fragment>
+      <ErrorModal error={error} onClear={clearError} />
       <Modal
         show={showConfirmModal}
         onCancel={cancelDeleteHandler}
@@ -51,29 +52,31 @@ const AdminItem = (props) => {
       >
         <p>Do you want to proceed?</p>
       </Modal>
-      <li className="place-item">
+      <li className="place-item ">
         <Card className="place-item__content">
-          <Link to={`/${props.id}/viewEmployeeDetails`}>
-            <div className="place-item__image">
-              <Avatar image={props.image} alt={props.name} />
-            </div>
-            <div className="place-item__info">
-              <h2>Name: {props.name}</h2>
-              <h3>Email: {props.email}</h3>
-              <h3>Address: {props.address}</h3>
-              <h3>Date of Birth: {props.dob}</h3>
-              <h3>Phone: {props.phone}</h3>
-            </div>
-          </Link>
+          {isLoading && <LoadingSpinner asOverlay />}
+          {/* <Link to={`/viewProfile/${props.id}`}> */}
+          {/* <div className="task-item__image">
+          <Avatar image={props.image} alt={props.name} />
+        </div> */}
+          <div className="place-item__info">
+            <h2>Title: {props.title}</h2>
+            <h2>Description: {props.description}</h2>
+            <h2>StartDate: {props.startDate}</h2>
+            <h2>Status: {props.status}</h2>
+            <h3>EndDate: {props.endDate}</h3>
+          </div>
           <div className="place-item__actions">
             <Button danger onClick={showDeleteWarningHandler}>
               DELETE
             </Button>
           </div>
+
+          {/* </Link> */}
         </Card>
       </li>
-    </div>
+    </React.Fragment>
   );
 };
 
-export default AdminItem;
+export default AdminViewLeaveItem;

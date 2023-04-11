@@ -34,6 +34,10 @@ const Auth = (props) => {
         value: "",
         isValid: false,
       },
+      address: {
+        value: "",
+        isValid: false,
+      },
       // role: {
       //   value: "employee",
       //   isValid: false,
@@ -111,6 +115,9 @@ const Auth = (props) => {
           JSON.stringify({
             name: formState.inputs.name.value,
             email: formState.inputs.email.value,
+            address: formState.inputs.address.value,
+            phone: formState.inputs.phone.value,
+            dob: formState.inputs.dob.value,
             password: formState.inputs.password.value,
             role: userRole,
           }),
@@ -141,6 +148,36 @@ const Auth = (props) => {
                   id="name"
                   type="text"
                   label="Your Name"
+                  validators={[VALIDATOR_REQUIRE()]}
+                  placeholder="name@example.com"
+                  errorText="Please enter a name."
+                  onInput={inputHandler}
+                />
+                <Input
+                  element="input"
+                  id="address"
+                  type="text"
+                  label="Address"
+                  validators={[VALIDATOR_REQUIRE()]}
+                  placeholder="name@example.com"
+                  errorText="Please enter a name."
+                  onInput={inputHandler}
+                />
+                <Input
+                  element="input"
+                  id="phone"
+                  type="text"
+                  label="Your Phone Number"
+                  validators={[VALIDATOR_REQUIRE()]}
+                  placeholder="name@example.com"
+                  errorText="Please enter a name."
+                  onInput={inputHandler}
+                />
+                <Input
+                  element="input"
+                  id="dob"
+                  type="date"
+                  label="Your Date Birth"
                   validators={[VALIDATOR_REQUIRE()]}
                   placeholder="name@example.com"
                   errorText="Please enter a name."

@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { useNavigate } from "react-router-dom";
 import Input from "../../shared/components/FormElements/Input";
 import {
   VALIDATOR_MINLENGTH,
@@ -13,6 +14,8 @@ import "./AssignTask.css";
 
 const AddNewEmployee = (props) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
+
+  const navigate = useNavigate();
 
   const [formState, inputHandler] = useForm(
     {
@@ -52,6 +55,10 @@ const AddNewEmployee = (props) => {
     } catch (err) {}
   };
 
+  const addEmployeeHandler = () => {
+    navigate("/admin");
+  };
+
   return (
     <Fragment>
       <ErrorModal error={error} onClear={clearError} />
@@ -86,7 +93,11 @@ const AddNewEmployee = (props) => {
           onInput={inputHandler}
         />
 
-        <Button type="submit" disabled={!formState.isValid}>
+        <Button
+          type="submit"
+          disabled={!formState.isValid}
+          onCLick={addEmployeeHandler}
+        >
           ADD
         </Button>
       </form>

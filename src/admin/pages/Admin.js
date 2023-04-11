@@ -35,11 +35,8 @@ const Admin = (propos) => {
         <Button Link to="/taskGiventoEmployee">
           VIEW TASK GIVEN TO EMPLOYEE
         </Button>
-      </div>
-
-      <div>
-        <Button Link to="/taskGiventoEmployee">
-          sVIEW TASK GIVEN TO EMPLOYEE
+        <Button Link to="/viewAllLeave">
+          VIEW ALL LEAVE
         </Button>
       </div>
     </Fragment>

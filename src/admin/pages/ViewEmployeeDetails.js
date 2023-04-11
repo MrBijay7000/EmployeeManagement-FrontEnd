@@ -81,11 +81,30 @@ const ViewEmployeeDetails = (props) => {
           value={loadedUsers.email}
           initialValid={true}
         />
+        <Input
+          id="address"
+          element="input"
+          type="text"
+          label="Address"
+          validorts={[VALIDATOR_REQUIRE()]}
+          errorText="AAA"
+          onInput={() => {}}
+          value={loadedUsers.address}
+          initialValid={true}
+        />
+        <Input
+          id="dob"
+          element="input"
+          type="text"
+          label="Date Of Birth"
+          validorts={[VALIDATOR_REQUIRE()]}
+          errorText="AAA"
+          onInput={() => {}}
+          value={loadedUsers.dob}
+          initialValid={true}
+        />
         <Button type="submit" onClick={okayFormHandler}>
           OKAY
-        </Button>
-        <Button type="submit" onClick={okayFormHandler}>
-          DELETE
         </Button>
       </form>
     </React.Fragment>
