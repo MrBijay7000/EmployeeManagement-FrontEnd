@@ -38,6 +38,10 @@ const AssignTask = (props) => {
       //   value: "",
       //   isValid: false,
       // },
+      dueDate: {
+        value: "",
+        isValid: false,
+      },
     },
     false
   );
@@ -55,6 +59,8 @@ const AssignTask = (props) => {
           description: formState.inputs.description.value,
           taskgivendate: formState.inputs.taskgivendate.value,
           // status: formState.inputs.status.value,
+          dueDate: formState.inputs.dueDate.value,
+          // priority: formState.inputs.priority.value,
         }),
 
         {
@@ -65,6 +71,23 @@ const AssignTask = (props) => {
       navigate("/admin");
     } catch (err) {}
   };
+
+  const [selectedOption, setSelectedOption] = useState("");
+  const [handleOptions, setHandleOptions] = useState("");
+
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
+
+  const handlePriority = (event) => {
+    setHandleOptions(event.target.value);
+  };
+
+  const [status, setStatus] = useState("Not started");
+
+  function handleStatusChange(event) {
+    setStatus(event.target.value);
+  }
 
   return (
     <Fragment>
@@ -118,9 +141,55 @@ const AssignTask = (props) => {
           validators={[VALIDATOR_REQUIRE()]}
           onInput={inputHandler}
           errorText="Please Enter A Status"
-          placeholder="Not Started, In Progress, Completed"
         /> */}
 
+        <div className="dropdown-container">
+          <label htmlFor="status">STATUS:</label>
+          <select
+            id="status"
+            value={selectedOption}
+            onChange={handleOptionChange}
+          >
+            <option value="Not started">Not started</option>
+            <option value="In progress">In progress</option>
+            <option value="Completed">Completed</option>
+          </select>
+        </div>
+        {/* <label>
+          Status:
+          <select value={status} onChange={handleStatusChange}>
+            <option value="Not started">Not started</option>
+            <option value="In progress">In progress</option>
+            <option value="Completed">Completed</option>
+          </select>
+        </label> */}
+        <Input
+          id="dueDate"
+          element="input"
+          type="date"
+          label="Due Date"
+          validators={[VALIDATOR_REQUIRE()]}
+          onInput={inputHandler}
+          errorText="Please Enter A Valid DueDate For This Task"
+        />
+        {/* <div className="dropdown-container">
+          <label htmlFor="priority">STATUS:</label>
+          <select id="priority" value={handleOptions} onChange={handlePriority}>
+            <option value="">Select an option</option>
+            <option value="option1">Low</option>
+            <option value="option2">Medium</option>
+            <option value="option3">High</option>
+          </select>
+        </div> */}
+        {/* <Input
+          id="priority"
+          element="input"
+          type="text"
+          label="Priority"
+          validators={[VALIDATOR_REQUIRE()]}
+          onInput={inputHandler}
+          errorText="Please Enter A Valid Priority For This Task"
+        /> */}
         <Button type="submit" disabled={!formState.isValid}>
           ASSIGN
         </Button>

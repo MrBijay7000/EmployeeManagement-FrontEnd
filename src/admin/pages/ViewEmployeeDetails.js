@@ -95,7 +95,7 @@ const ViewEmployeeDetails = (props) => {
         <Input
           id="dob"
           element="input"
-          type="text"
+          type="date"
           label="Date Of Birth"
           validorts={[VALIDATOR_REQUIRE()]}
           errorText="AAA"

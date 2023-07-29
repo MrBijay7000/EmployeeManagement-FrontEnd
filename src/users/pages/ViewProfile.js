@@ -29,6 +29,7 @@ const ViewProfile = (props) => {
     };
     fetchUsers();
   }, [sendRequest, employeeId]);
+  console.log({ loadedUsers });
 
   if (isLoading) {
     return (
@@ -69,6 +70,39 @@ const ViewProfile = (props) => {
           initialValid={true}
         />
         <Input
+          id="name"
+          element="input"
+          type="text"
+          label="Address"
+          validorts={[VALIDATOR_REQUIRE()]}
+          errorText="AAA"
+          onInput={() => {}}
+          value={loadedUsers.address}
+          initialValid={true}
+        />
+        <Input
+          id="name"
+          element="input"
+          type="text"
+          label="Phone"
+          validorts={[VALIDATOR_REQUIRE()]}
+          errorText="AAA"
+          onInput={() => {}}
+          value={loadedUsers.phone}
+          initialValid={true}
+        />
+        <Input
+          id="name"
+          element="input"
+          type="text"
+          label="Date of Birth"
+          validorts={[VALIDATOR_REQUIRE()]}
+          errorText="AAA"
+          onInput={() => {}}
+          value={loadedUsers.dateofbirth}
+          initialValid={true}
+        />
+        <Input
           id="email"
           element="input"
           type="text"
@@ -77,6 +111,39 @@ const ViewProfile = (props) => {
           errorText="AAA"
           onInput={() => {}}
           value={loadedUsers.email}
+          initialValid={true}
+        />
+        <Input
+          id="email"
+          element="input"
+          type="date"
+          label="Hire Date"
+          validorts={[VALIDATOR_REQUIRE()]}
+          errorText="AAA"
+          onInput={() => {}}
+          value={loadedUsers.hireDate}
+          initialValid={true}
+        />
+        <Input
+          id="email"
+          element="textarea"
+          type="textarea"
+          label="Image"
+          validorts={[VALIDATOR_REQUIRE()]}
+          errorText="AAA"
+          onInput={() => {}}
+          value={loadedUsers.image}
+          initialValid={true}
+        />
+        <Input
+          id="email"
+          element="input"
+          type="text"
+          label="Role"
+          validorts={[VALIDATOR_REQUIRE()]}
+          errorText="AAA"
+          onInput={() => {}}
+          value={loadedUsers.role}
           initialValid={true}
         />
         <Button type="submit" onClick={okayFormHandler}>

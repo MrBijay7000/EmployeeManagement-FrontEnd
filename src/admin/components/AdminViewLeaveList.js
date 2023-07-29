@@ -1,12 +1,12 @@
 import React from "react";
-import TaskItem from "./AdminTaskItem";
+import AdminViewLeaveItem from "./AdminViewLeaveItem";
 import "./AdminTaskList.css";
 
 const AdminViewLeaveList = (props) => {
   if (props.items.length === 0) {
     return (
       <div className="center">
-        <h2>No Tasks Found!</h2>
+        <h2>No Leave Found!</h2>
       </div>
     );
   }
@@ -14,13 +14,16 @@ const AdminViewLeaveList = (props) => {
   return (
     <ul className="admin-list">
       {props.items.map((user) => (
-        <TaskItem
+        <AdminViewLeaveItem
           key={user.id}
           id={user.id}
           title={user.title}
-          description={user.description}
+          employeeId={user.employeeId}
+          reason={user.reason}
           startDate={user.startDate}
           endDate={user.endDate}
+          appliedDate={user.appliedDate}
+          duration={user.duration}
           status={user.status}
           onDelete={props.onDeleteTask}
         />

@@ -27,6 +27,8 @@ import ViewEmployeeDetails from "./admin/pages/ViewEmployeeDetails";
 import Dashboard from "./shared/components/Dashboard/Dashboard";
 import LoadingSpinner from "./shared/components/UIElements/LoadingSpinner";
 import ViewAllLeave from "./admin/pages/ViewAllLeave";
+import AdminUpdateUser from "./admin/pages/UpdateUser";
+import ADDNewEmployee from "./admin/pages/NewEmployee";
 
 function App() {
   // const navigate = useNavigate();
@@ -117,16 +119,13 @@ function App() {
                     <Route path="/assignTask" element={<AssignTask />} />
                     <Route
                       path="/addNewEmployee"
-                      element={<AddNewEmployee />}
+                      element={<ADDNewEmployee />}
                     />
                     <Route
                       path="/taskGiventoEmployee"
                       element={<TaskGiven />}
                     />
-                    <Route
-                      path="/:id/admin-details"
-                      element={<AdminDetails />}
-                    />
+                    <Route path="/:id/viewProfile" element={<AdminDetails />} />
                     <Route
                       path="/viewAllEmployees"
                       element={<ViewAllEmployee />}
@@ -140,6 +139,10 @@ function App() {
                       path="/adminChangepassword"
                       element={<ChangePassword />}
                     />
+                    <Route
+                      path="/update/:employeeId"
+                      element={<AdminUpdateUser />}
+                    />
                     {/*   
                 <Route path="/view-profile" element={<AdminViewProfile />} />
                 <Route
@@ -152,7 +155,10 @@ function App() {
               </Routes> */}
                     {/* <Routes> */}
                     <Route path="/employee" element={<Employee />} />
-                    {/* <Route path="/view-profile" element={<ViewProfile />} /> */}
+                    {/* <Route
+                      path="/employee/viewProfile"
+                      element={<ViewProfile />}
+                    /> */}
                     <Route
                       path="/viewProfile/:employeeId"
                       element={<ViewProfile />}

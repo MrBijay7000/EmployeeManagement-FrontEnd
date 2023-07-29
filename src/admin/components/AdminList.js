@@ -21,7 +21,7 @@ const AdminList = (props) => {
           email={user.email}
           image={user.image}
           address={user.address}
-          dob={user.dob}
+          dob={user.dateofbirth}
           phone={user.phone}
           onDelete={props.onDeleteEmployee}
         />

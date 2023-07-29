@@ -16,11 +16,14 @@ const TaskList = (props) => {
       {props.items.map((user) => (
         <TaskItem
           key={user.id}
+          id={user.id}
+          employeeId={user.employeeId}
           title={user.title}
           description={user.description}
-          startDate={user.startDate}
-          endDate={user.endDate}
+          taskgivendate={user.taskgivendate}
           status={user.status}
+          dueDate={user.dueDate}
+          priority={user.priority}
         />
       ))}
     </ul>

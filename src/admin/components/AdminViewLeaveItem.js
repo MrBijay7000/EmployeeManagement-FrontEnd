@@ -60,11 +60,14 @@ const AdminViewLeaveItem = (props) => {
           <Avatar image={props.image} alt={props.name} />
         </div> */}
           <div className="place-item__info">
+            <h2>employeeId: {props.employeeId}</h2>
             <h2>Title: {props.title}</h2>
-            <h2>Description: {props.description}</h2>
+            <h2>Reason: {props.reason}</h2>
             <h2>StartDate: {props.startDate}</h2>
             <h2>Status: {props.status}</h2>
             <h3>EndDate: {props.endDate}</h3>
+            <h4>AppliedDate: {props.appliedDate}</h4>
+            <h3>Duration: {props.duration}</h3>
           </div>
           <div className="place-item__actions">
             <Button danger onClick={showDeleteWarningHandler}>

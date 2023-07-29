@@ -69,6 +69,8 @@ const AdminItem = (props) => {
             <Button danger onClick={showDeleteWarningHandler}>
               DELETE
             </Button>
+
+            <Button to={`/update/${props.id}`}>EDIT</Button>
           </div>
         </Card>
       </li>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Input from "../../shared/components/FormElements/Input";
 import {
   VALIDATOR_MINLENGTH,
@@ -21,25 +21,38 @@ const ApplyForLeave = (props) => {
         value: "",
         isValid: false,
       },
-      sdate: {
+      title: {
         value: "",
         isValid: false,
       },
-      edate: {
+      startDate: {
         value: "",
         isValid: false,
       },
-      adate: {
+      endDate: {
         value: "",
         isValid: false,
       },
-      description: {
+      appliedDate: {
+        value: "",
+        isValid: false,
+      },
+      duration: {
+        value: "",
+        isValid: false,
+      },
+      reason: {
         value: "",
         isValid: false,
       },
     },
     false
   );
+  const [selectedOption, setSelectedOption] = useState("");
+
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
 
   const applyForLeaveHandler = async (event) => {
     event.preventDefault();
@@ -51,10 +64,12 @@ const ApplyForLeave = (props) => {
         "POST",
         JSON.stringify({
           employeeId: formState.inputs.employeeId.value,
-          startDate: formState.inputs.sdate.value,
-          endDate: formState.inputs.edate.value,
-          appliedDate: formState.inputs.adate.value,
-          reason: formState.inputs.description.value,
+          title: formState.inputs.title.value,
+          startDate: formState.inputs.startDate.value,
+          endDate: formState.inputs.endDate.value,
+          appliedDate: formState.inputs.appliedDate.value,
+          duration: formState.inputs.duration.value,
+          reason: formState.inputs.reason.value,
         }),
 
         {
@@ -80,7 +95,16 @@ const ApplyForLeave = (props) => {
         errorText="Please Enter A Valid Employee Id"
       />
       <Input
-        id="sdate"
+        id="title"
+        element="input"
+        type="text"
+        label="Title"
+        validators={[VALIDATOR_REQUIRE()]}
+        onInput={inputHandler}
+        errorText="Please Enter A Valid Title"
+      />
+      <Input
+        id="startDate"
         element="input"
         type="date"
         label="Start Date"
@@ -88,40 +112,73 @@ const ApplyForLeave = (props) => {
         min="2022-01-31"
         max="2025-12-31"
         onInput={inputHandler}
-        errorText="Please Enter A Valid Date"
+        errorText="Please Enter A Valid StartDate"
       />
       <Input
-        id="edate"
+        id="endDate"
         element="input"
         type="date"
         label="End Date"
-        validators={[VALIDATOR_REQUIRE()]}
         min="2022-01-31"
         max="2025-12-31"
+        validators={[VALIDATOR_REQUIRE()]}
         onInput={inputHandler}
-        errorText="Please Enter A Valid Date"
+        errorText="Please Enter A Valid EndDate"
       />
       <Input
-        id="adate"
+        id="appliedDate"
         element="input"
         type="date"
-        label="Apply Date"
-        validators={[VALIDATOR_REQUIRE()]}
+        label="Applied Date"
         min="2022-01-31"
         max="2025-12-31"
+        validators={[VALIDATOR_REQUIRE()]}
         onInput={inputHandler}
-        errorText="Please Enter A Valid Date"
+        errorText="Please Enter A Valid AppliedDate"
       />
-
       <Input
-        id="description"
+        id="duration"
+        element="input"
+        type="number"
+        min="0"
+        max="2025-12-31"
+        label="For How Many Days(duration)"
+        validators={[VALIDATOR_REQUIRE()]}
+        onInput={inputHandler}
+        errorText="Please Enter A Valid Duration Date"
+      />
+      <Input
+        id="reason"
+        element="input"
+        type="text"
+        label="Reason"
+        validators={[VALIDATOR_REQUIRE()]}
+        onInput={inputHandler}
+        errorText="Please Enter A Valid Reason"
+      />
+      {/* <div className="dropdown-container">
+        <label htmlFor="options">Select an option:</label>
+        <select
+          id="options"
+          value={selectedOption}
+          onChange={handleOptionChange}
+        >
+          <option value="">Select an option</option>
+          <option value="Pending">Pending</option>
+          <option value="Approved">Approved</option>
+          <option value="Rejected">Rejected</option>
+        </select>
+      </div> */}
+
+      {/* <Input
+        id="status"
         element="textarea"
         type="text"
         label="Reason"
         validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(5)]}
         onInput={inputHandler}
         errorText="Please Enter A Valid Description (At least 5 letters)"
-      />
+      /> */}
 
       <Button
         type="submit"

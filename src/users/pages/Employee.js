@@ -24,8 +24,12 @@ const Employee = (props) => {
 
   return (
     <div>
+      <div>
+        <img src="https://blog.vantagecircle.com/content/images/2020/08/Employee-recognition.png" />
+      </div>
       <ErrorModal error={error} onClear={clearError} />
       {loadedUsers && <UsersList items={loadedUsers} />}
+
       <div className="button">
         <Button Link to="/leave">
           APPLY FOR LEAVE

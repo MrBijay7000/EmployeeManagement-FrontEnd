@@ -1,4 +1,6 @@
-import React, { Fragment, useState } from "react";
+// components/ChangePasswordForm.js
+import React, { useState, Fragment } from "react";
+
 import { useNavigate } from "react-router-dom";
 import Input from "../../shared/components/FormElements/Input";
 import {
@@ -13,7 +15,7 @@ import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 
 import "./AssignTask.css";
 
-const AddNewEmployee = (props) => {
+const ADDNewEmployee = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   const navigate = useNavigate();
@@ -49,17 +51,12 @@ const AddNewEmployee = (props) => {
         value: "",
         isValid: false,
       },
-      // role: {
-      //   value: "",
-      //   isValid: false,
-      // },
     },
     false
   );
 
-  const taskgivenHandler = async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-
     try {
       const responseData = await sendRequest(
         "http://localhost:5001/api/admin/addEmployes",
@@ -83,15 +80,52 @@ const AddNewEmployee = (props) => {
     } catch (err) {}
   };
 
-  const addEmployeeHandler = () => {
-    navigate("/admin");
-  };
-
   return (
+    // <form onSubmit={handleSubmit}>
+    //   <Input
+    //     id="oldPassword"
+    //     element="input"
+    //     type="password"
+    //     label="Old Password"
+    //     validators={
+    //       [
+    //         /* Add validators if needed */
+    //       ]
+    //     }
+    //     onInput={inputHandler}
+    //   />
+    //   <Input
+    //     id="newPassword"
+    //     element="input"
+    //     type="password"
+    //     label="New Password"
+    //     validators={
+    //       [
+    //         /* Add validators if needed */
+    //       ]
+    //     }
+    //     onInput={inputHandler}
+    //   />
+    //   <Input
+    //     id="confirmPassword"
+    //     element="input"
+    //     type="password"
+    //     label="Confirm New Password"
+    //     validators={
+    //       [
+    //         /* Add validators if needed */
+    //       ]
+    //     }
+    //     onInput={inputHandler}
+    //   />
+    //   <Button type="submit" disabled={!formState.isValid}>
+    //     Change Password
+    //   </Button>
+    // </form>
     <Fragment>
       <ErrorModal error={error} onClear={clearError} />
 
-      <form className="leave" onSubmit={taskgivenHandler}>
+      <form className="leave" onSubmit={handleSubmit}>
         {isLoading}
         <Input
           id="name"
@@ -170,11 +204,7 @@ const AddNewEmployee = (props) => {
           onInput={inputHandler}
         />
 
-        <Button
-          type="submit"
-          disabled={!formState.isValid}
-          onCLick={addEmployeeHandler}
-        >
+        <Button type="submit" disabled={!formState.isValid}>
           ADD
         </Button>
       </form>
@@ -182,4 +212,4 @@ const AddNewEmployee = (props) => {
   );
 };
 
-export default AddNewEmployee;
+export default ADDNewEmployee;

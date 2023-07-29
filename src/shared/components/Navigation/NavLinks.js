@@ -19,7 +19,6 @@ const NavLinks = ({ loggedInUser }) => {
   // }, []);
 
   const logout = () => {
-    // setIsLoading(false);
     auth.logout();
     localStorage.removeItem("user");
     navigate("/");
@@ -44,10 +43,17 @@ const NavLinks = ({ loggedInUser }) => {
             Home
           </NavLink>
         </li>
-        {auth.isLoggedIn && (
+
+        {auth.isLoggedIn && role === "admin" ? (
           <li>
-            <NavLink to="/view-profile">View Profile</NavLink>
+            <NavLink to="/:id/viewProfile">View Profile</NavLink>
           </li>
+        ) : (
+          auth.isLoggedIn && (
+            <li>
+              <NavLink to="/employee/viewProfile">View Profile</NavLink>
+            </li>
+          )
         )}
 
         {auth.isLoggedIn && role === "admin" ? (
@@ -73,7 +79,7 @@ const NavLinks = ({ loggedInUser }) => {
         )}
         {auth.isLoggedIn && (
           <li>
-            <button onClick={logout}>LOGOUT</button>/
+            <button onClick={logout}>LOGOUT</button>
           </li>
         )}
       </ul>
